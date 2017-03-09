@@ -8,8 +8,8 @@ var User = require('../models/users.model');
 
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  User.find().exec(function (err, user) {
+router.get('/:card', function (req, res, next) {
+  User.find({ card: req.params.card }).exec(function (err, user) {
     if (err) {
       res.json(err)
       return console.log(err);
