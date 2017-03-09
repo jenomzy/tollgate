@@ -4,6 +4,27 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+
+
+mongoose.connect(process.env.MONGODB_URI);
+
+// mongoose.connect('mongodb://localhost/tollgate');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.on('connected', function () {
+    console.log('Connected to mongoose');
+});
+db.on('disconnected', function () {
+    console.log('Mongoose connection disconnected');
+});
+process.on('SIGINT', function() {
+    db.close(function () {
+        console.log('Mongoose connection disconnected on app termination');
+        process.exit(0);
+    });
+});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
