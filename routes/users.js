@@ -1,12 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/users.model');
-
+var history = require('../models/history.model');
+var date = new Date();
+var today={
+    date: date.toDateString(),
+    time:date.getTime()
+};
 
 
 /* GET users listing. */
 router.get('/:card', function (req, res, next) {
-  User.find({ card: req.params.card }).exec(function (err, user) {
+  User.find({ card: req.params.card },{_id:0,name:1,balance:1}).exec(function (err, user) {
     if (err) {
       res.json(err);
       return console.log(err);
@@ -19,7 +24,7 @@ router.get('/:card', function (req, res, next) {
 });
 
 router.get('/', function (req, res, next) {
-    User.find({}).exec(function (err, user) {
+    User.find({},{_id:0,card:0}).exec(function (err, user) {
         if (err) {
             res.json(err);
             return console.log(err);
