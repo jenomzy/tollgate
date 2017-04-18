@@ -1,0 +1,23 @@
+
+
+
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <td>Date</td>
+            <td>Place</td>
+            {{#if user.balance}}<td>Balance</td>{{/if}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#each user.history}}
+            <tr>
+                <td>{{this.date}}</td>
+                <td>{{this.place}}</td>
+                {{#if user.balance}}<td>{{this.balance}}</td>{{/if}}
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>

@@ -1,0 +1,18 @@
+<h2 class="page-header">
+    {{{user.name}}}
+    <br>
+    <small>
+        @{{{user.username}}}
+    </small>
+</h2>
+<p>Input the amount to make payment</p>
+
+<div>
+    <form method="post" action="/deposit_money">
+        <div class="form-group">
+            <label>Amount:</label>
+            <input type="number" class="form-control" name="amount" placeholder="Enter Amount"/>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</div>

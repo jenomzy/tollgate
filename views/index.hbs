@@ -1,2 +1,27 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h2 class="page-header">
+    {{{user.name}}}
+    <br>
+    <small>
+        @{{{user.username}}}
+        <br>
+        {{{user.sex}}}
+        <br>
+        {{{user.address}}}
+    </small>
+</h2>
+<p>Welcome to your dashboard</p>
+
+
+<div class="row">
+    <div class="col-md-4 grid-box">
+        <h3>Balance <a class="btn btn-info btn-group-xs pull-right" href="/deposit_money">Deposit</a></h3>
+        <hr class="small">
+        <h2 class="pull-right">Ghc {{{user.balance}}}</h2>
+    </div>
+    <div class="col-md-4 grid-box">
+        <h3>History <a class="btn btn-info btn-group-xs pull-right" href="/view_full_history">View</a></h3>
+        <hr class="small">
+        <h2 class="pull-right">logs: {{{user.history.length}}}</h2>
+
+    </div>
+</div>

@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
-var bcrypt   = require('bcryptjs');
+var bcrypt = require('bcryptjs');
 var Schema = mongoose.Schema;
 
-var UserSchema = new Schema({
+var AdminSchema = new Schema({
     username:{
         type: String,
         index: true,
@@ -10,55 +10,39 @@ var UserSchema = new Schema({
         required: true
     },
     name: String,
-    sex: String,
-    balance:{
-        type: Number,
-        default: 0
-    },
     email:{
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    address: String,
-    phone: String,
-    card:{
         type: String,
         required: true,
         unique: true
     },
     account_type: {
         type: String,
-        default: "user"
+        default: "admin"
     },
-    history:[
-        {
-        date: Date,
-        place: String
-    }]
+    password: {
+        type: String,
+        required: true
+    },
+    phone: String
 });
 
-var User = module.exports = mongoose.model('users', UserSchema);
-module.exports.createUser = function (newUser, callback) {
+var Admin = module.exports = mongoose.model('admin_user', AdminSchema);
+module.exports.createAdmin = function (newAdmin, callback) {
     bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(newUser.password, salt, function (err, hash) {
-            newUser.password = hash;
-            newUser.save(callback);
+        bcrypt.hash(newAdmin.password, salt, function (err, hash) {
+            newAdmin.password = hash;
+            newAdmin.save(callback);
         });
     });
 };
 
 module.exports.getUserByUsername = function (username, callback) {
     var query = {username: username};
-    User.findOne(query, callback);
+    Admin.findOne(query, callback);
 };
 
 module.exports.getUserById = function(id, callback) {
-    User.findById(id, callback);
+    Admin.findById(id, callback);
 };
 
 module.exports.comparePassword = function (candidatePassword, hash, callback) {
