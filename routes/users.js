@@ -152,7 +152,7 @@ router.get('/:card', function (req, res, next) {
         if (err) {
             return console.log(err);
         } else {
-            History.update(
+            /*History.update(
                 {"date": today.date},
                 {
                     $push: {
@@ -173,7 +173,7 @@ router.get('/:card', function (req, res, next) {
                     console.log(data);
 
 
-                    /*request.createClient(TILL_BASE).post(TILL_PATH, {
+                    /!*request.createClient(TILL_BASE).post(TILL_PATH, {
                         "phone": [user[0].phone],
                         "text": "Hello "+user[0].name+" You just passed terminal 2. Your new balance is "+user[0].balance
                     },function (err, resp, body) {
@@ -183,11 +183,12 @@ router.get('/:card', function (req, res, next) {
                         console.log("SMS sent to "+user[0].phone+" with statusCode "+resp.statusCode);
                         console.log(body);
                         // res.json(user);
-                    });*/
+                    });*!/
 
                     res.json(user);
                 }
-            );
+            );*/
+            res.json(user);
         }
     });
     // res.send('respond with a resource');
