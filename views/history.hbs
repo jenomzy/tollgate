@@ -11,12 +11,19 @@
         </tr>
     </thead>
     <tbody>
-        {{#each user.history}}
+        {{#each user.history as |item itemIndex|}}
 
             <tr>
-                <td>{{this.date}}</td>
-                <td>{{this.place}}</td>
-                <td>{{../user.balance}}</td>
+                <td>{{item.date}}</td>
+                <td>{{item.place}}</td>
+
+                {{#compare itemIndex 0 operator="==="}}
+                    <td>{{../user.balance}}</td>
+                {{/compare}}
+                {{#compare itemIndex 0 operator=">"}}
+                    <td>{{math ../user.balance "+=" item.diff}}</td>
+                {{/compare}}
+
             </tr>
         {{/each}}
     </tbody>

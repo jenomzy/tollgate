@@ -8,6 +8,53 @@ var url = require("url");
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+require('hbs').registerHelper("math", function(lvalue, operator, rvalue, options) {
+    lvalue = Number(lvalue);
+    rvalue = Number(rvalue);
+
+    var trick = lvalue;
+
+    return {
+        "===":lvalue>rvalue,
+        "+=":trick+=rvalue,
+        "+": lvalue + rvalue,
+        "-": lvalue - rvalue,
+        "*": lvalue * rvalue,
+        "/": lvalue / rvalue,
+        "%": lvalue % rvalue
+    }[operator];
+
+});
+require('hbs').registerHelper('compare', function(lvalue, rvalue, options) {
+
+    if (arguments.length < 3)
+        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+    var operator = options.hash.operator || "==";
+
+    var operators = {
+        '==':       function(l,r) { return l == r; },
+        '===':      function(l,r) { return l === r; },
+        '!=':       function(l,r) { return l != r; },
+        '<':        function(l,r) { return l < r; },
+        '>':        function(l,r) { return l > r; },
+        '<=':       function(l,r) { return l <= r; },
+        '>=':       function(l,r) { return l >= r; },
+        'typeof':   function(l,r) { return typeof l == r; }
+    };
+
+    if (!operators[operator])
+        throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+    var result = operators[operator](lvalue,rvalue);
+
+    if( result ) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+
+});
 
 var TILL_URL =url.parse(process.env.TILL_URL);
 var TILL_BASE = TILL_URL.protocol + "//" + TILL_URL.host;

@@ -12,6 +12,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 
+
 mongoose.connect(process.env.MONGODB_URI);
 
 // mongoose.connect('mongodb://localhost/tollgate');
@@ -47,7 +48,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 //Session
 app.use(session({
