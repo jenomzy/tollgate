@@ -30,6 +30,26 @@ router.get('/login', function (req, res, next) {
     });
 });
 
+router.get('/:card', function (req, res, next) {
+   User.findOneAndUpdate({card: req.params.card},{
+       $inc: {
+           balance: req.query.charge
+       }, $push: {
+               history:{
+                   $each:[{
+                       "date": new Date().toISOString(),
+                       "place": req.query.place,
+                       "diff": req.query.charge
+                   }],
+                   $position: 0
+               }
+       }
+   }, function (err, result) {
+       if(err) throw err;
+       res.json(result);
+   })
+});
+
 router.post('/register', function (req, res, next) {
     var name = req.body.name;
     var email = req.body.email;
@@ -132,69 +152,6 @@ router.get('/logout', function (req, res) {
 
     res.redirect('/users/login');
 });
-
-/* GET users listing. */
-/*router.get('/', function (req, res, next) {
-    User.find({}, {_id: 0, card: 0}).exec(function (err, user) {
-        if (err) {
-            res.json(err);
-            return console.log(err);
-        }
-        else {
-            res.json(user);
-        }
-    });
-    // res.send('respond with a resource');
-});*/
-
-router.get('/:card', function (req, res, next) {
-    User.find({card: req.params.card}, {_id:1,name: 1, balance: 1, phone: 1}).exec(function (err, user) {
-        if (err) {
-            return console.log(err);
-        } else {
-            /*History.update(
-                {"date": today.date},
-                {
-                    $push: {
-                        users: {
-                            $each: [
-                                {
-                                    "_id": user[0]._id,
-                                    "name": user[0].name,
-                                    "balance": user[0].balance,
-                                    "time": today.time
-                                }
-                            ],
-                            $position: 0
-                        }
-                    }
-                }, {upsert: true}, function (err, data) {
-                    if (err) return console.log(err);
-                    console.log(data);
-
-
-                    /!*request.createClient(TILL_BASE).post(TILL_PATH, {
-                        "phone": [user[0].phone],
-                        "text": "Hello "+user[0].name+" You just passed terminal 2. Your new balance is "+user[0].balance
-                    },function (err, resp, body) {
-                        if (err) {
-                            return console.log(err);
-                        }
-                        console.log("SMS sent to "+user[0].phone+" with statusCode "+resp.statusCode);
-                        console.log(body);
-                        // res.json(user);
-                    });*!/
-
-                    res.json(user);
-                }
-            );*/
-            res.json(user);
-        }
-    });
-    // res.send('respond with a resource');
-});
-
-
 
 
 

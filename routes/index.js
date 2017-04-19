@@ -26,7 +26,8 @@ router.get('/view_full_history', ensureAuthenticated, function (req, res, next) 
         user: {
             name: req.user.name,
             username: req.user.username,
-            history: req.user.history
+            history: req.user.history,
+            balance: req.user.balance
         }
     })
 });
@@ -48,6 +49,15 @@ router.post('/deposit_money', ensureAuthenticated, function (req, res, next) {
     Users.update({_id: req.user._id},{
         $inc: {
             balance: req.body.amount
+        },$push: {
+            history:{
+                $each:[{
+                    "date": new Date().toISOString(),
+                    "place": "Online User Portal",
+                    "diff": req.body.amount
+                }],
+                $position: 0
+            }
         }
     },function (err) {
         if(err) throw err;
@@ -56,6 +66,12 @@ router.post('/deposit_money', ensureAuthenticated, function (req, res, next) {
         }
     });
 
+});
+
+router.post('/verify_toll/:id', ensureAuthenticated, function (req, res, next) {
+    var place = req.query.place;
+    var id = req.params.id;
+    res.send('Welcome');
 });
 
 function ensureAuthenticated(req, res, next) {

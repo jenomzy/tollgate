@@ -1,21 +1,21 @@
 var mongoose = require('mongoose');
-var bcrypt   = require('bcryptjs');
+var bcrypt = require('bcryptjs');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-    username:{
+    username: {
         type: String,
         index: true,
-        unique:true,
+        unique: true,
         required: true
     },
     name: String,
     sex: String,
-    balance:{
+    balance: {
         type: Number,
         default: 0
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true
@@ -26,7 +26,7 @@ var UserSchema = new Schema({
     },
     address: String,
     phone: String,
-    card:{
+    card: {
         type: String,
         required: true,
         unique: true
@@ -35,11 +35,15 @@ var UserSchema = new Schema({
         type: String,
         default: "user"
     },
-    history:[
+    history: [
         {
-        date: Date,
-        place: String
-    }]
+            date: Date,
+            place: String,
+            diff: {
+                type: Number,
+                required: true
+            }
+        }]
 });
 
 var User = module.exports = mongoose.model('users', UserSchema);
@@ -57,13 +61,19 @@ module.exports.getUserByUsername = function (username, callback) {
     User.findOne(query, callback);
 };
 
-module.exports.getUserById = function(id, callback) {
+module.exports.getUserById = function (id, callback) {
     User.findById(id, callback);
 };
 
 module.exports.comparePassword = function (candidatePassword, hash, callback) {
     bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
-        if(err) throw err;
+        if (err) throw err;
         callback(null, isMatch);
     });
 };
+
+/*
+ module.exports.execTransaction = function (card, callback) {
+ var query = {card: card};
+ User.update(query, callback);
+ };*/

@@ -12,10 +12,11 @@
     </thead>
     <tbody>
         {{#each user.history}}
+
             <tr>
                 <td>{{this.date}}</td>
                 <td>{{this.place}}</td>
-                {{#if user.balance}}<td>{{this.balance}}</td>{{/if}}
+                <td>{{../user.balance}}</td>
             </tr>
         {{/each}}
     </tbody>
