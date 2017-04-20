@@ -21,7 +21,7 @@
                     <td>{{../user.balance}}</td>
                 {{/compare}}
                 {{#compare itemIndex 0 operator=">"}}
-                    <td>{{math ../user.balance "+=" item.diff}}</td>
+                    <td>{{math ../user.balance "+=" item.diff itemIndex}}</td>
                 {{/compare}}
 
             </tr>
