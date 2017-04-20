@@ -48,16 +48,6 @@ router.get('/:card', function (req, res, next) {
    }, function (err, result) {
        if(err) throw err;
        res.json({name:result.name,balance:Number(result.balance)+Number(req.query.charge)});
-       // request.createClient(TILL_BASE).post(TILL_PATH, {
-       //     "phone": [user[0].phone],
-       //     "text": "Hello "+user[0].name+" You just passed “”+req.query.place+” and was charged “+req.query.charge+”. Your new balance is "+user[0].balance
-       // },function (err, resp, body) {
-       //     if (err) {
-       //         return console.log(err);
-       //     }
-       //     console.log("SMS sent to "+user[0].phone+" with statusCode "+resp.statusCode);
-       //     console.log(body);
-       // });
    })
 });
 
