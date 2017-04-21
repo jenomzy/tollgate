@@ -46,7 +46,20 @@ router.get('/:card', function (req, res, next) {
                }
        }
    }, function (err, result) {
-       if(err) throw err;
+
+
+       request.createClient(TILL_BASE).post(TILL_PATH, {
+           "phone": [result.phone],
+           "text": "Hello "+result.name+" You just passed "+req.query.place+ " and was charged "+req.query.charge+". Your new balance is "+result.balance
+       },function (err, resp, body) {
+           if (err) {
+               return console.log(err);
+           }
+           console.log("SMS sent to "+result.phone+" with statusCode "+resp.statusCode);
+           console.log(body);
+       });
+
+       if(err) console.log(err);
        res.json({name:result.name,balance:Number(result.balance)+Number(req.query.charge)});
    })
 });
