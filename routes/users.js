@@ -48,7 +48,7 @@ router.get('/:card', function (req, res, next) {
    }, function (err, result) {
        request.createClient(TILL_BASE).post(TILL_PATH, {
            "phone": [result.phone],
-           "text": "Hello "+result.name+" You just passed "+req.query.place+ " and was charged "+req.query.charge+". Your new balance is "+result.balance
+           "text": "Hello "+result.name+" You just passed "+req.query.place+ " and was charged GHc "+req.query.charge+". Your new balance is GHc"+result.balance
        },function (err, resp, body) {
            if (err) {
                return console.log(err);
