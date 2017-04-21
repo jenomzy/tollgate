@@ -8,6 +8,7 @@
             <td>Date</td>
             <td>Place</td>
             {{#if user.balance}}<td>Balance</td>{{/if}}
+            <td>Difference</td>
         </tr>
     </thead>
     <tbody>
@@ -17,13 +18,11 @@
                 <td>{{item.date}}</td>
                 <td>{{item.place}}</td>
 
-                {{#compare itemIndex 0 operator="==="}}
-                    <td>{{../user.balance}}</td>
-                {{/compare}}
-                {{#compare itemIndex 0 operator=">"}}
-                    <td>{{math ../user.balance "+=" item.diff itemIndex}}</td>
-                {{/compare}}
 
+                <td class="text-right">{{#compare item.balance null operator="=="}}NaN{{/compare}}{{item.balance}}</td>
+
+                {{#compare item.diff 0 operator=">"}}<td class="text-success text-right">+{{item.diff}}</td>{{/compare}}
+                {{#compare item.diff 0 operator="<"}}<td class="text-danger text-right">{{item.diff}}</td>{{/compare}}
             </tr>
         {{/each}}
     </tbody>

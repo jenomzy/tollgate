@@ -84,12 +84,23 @@ router.get('/view_full_history', ensureAuthenticated, function (req, res, next) 
     });
     trick = temp;
 
+    var modHist = req.user.history;
+    var tempBal = req.user.balance;
+    modHist.forEach(function (item,index, array) {
+        if(index === 0){ item.balance = req.user.balance;item.diff='current'}
+        else {
+            tempBal -= item.diff;
+            item.balance = tempBal;
+            // modHist[index].diff = item.diff
+        }
+    });
+
     res.render('history', {
         title: "History " + req.user.name,
         user: {
             name: req.user.name,
             username: req.user.username,
-            history: req.user.history,
+            history: modHist,
             balance: req.user.balance
         }
     })
